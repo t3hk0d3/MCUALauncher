@@ -9,8 +9,12 @@
 
     <name>MUALauncher</name>
     <url>http://maven.apache.org</url>
-
+    
     <properties>
+        <buildNumber>0</buildNumber>
+        <mainClass>ru.tehkode.mualauncher.Launcher</mainClass>
+        <minimumJreVersion>1.6</minimumJreVersion>
+        <currentYear>2013</currentYear>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
   
@@ -51,53 +55,64 @@
                     <shadedClassifierName>shaded</shadedClassifierName>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.bluestemsoftware.open.maven.plugin</groupId>
-                <artifactId>launch4j-plugin</artifactId>
-                <version>1.5.0.0</version>
-                <executions>
-
-                    <!-- GUI exe -->
-                    <execution>
-                        <id>l4j-gui</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>launch4j</goal>
-                        </goals>
-                        <configuration>
-                            <headerType>gui</headerType>
-                            <outfile>target/Launcher.exe</outfile>
-                            <jar>target/${artifactId}-${version}-shaded.jar</jar> <!-- 'shaded' is the value set on shadedClassifierName above -->
-                            <errTitle>launcherr</errTitle>
-                            <classPath>
-                                <mainClass>ru.tehkode.mualaucher.Launcher</mainClass>
-                            </classPath>
-                            <icon>src/main/resources/exeIcon.ico</icon>
-                            <jre>
-                                <minVersion>1.6.0</minVersion>
-                                <maxVersion>1.7.0</maxVersion>
-                                <initialHeapSize>512</initialHeapSize>
-                                <maxHeapSize>1024</maxHeapSize>
-                            </jre>
-                            <versionInfo>
-                                <fileVersion>1.0.0.0</fileVersion>
-                                <txtFileVersion>1.0.0.0</txtFileVersion>
-                                <fileDescription>Minecraft Launcher</fileDescription>
-                                <copyright>t3hk0d3</copyright>
-                                <productVersion>1.0.0.0</productVersion>
-                                <txtProductVersion>1.0.0.0</txtProductVersion>
-                                <productName>Minecraft Launcher</productName>
-                                <internalName>Minecraft Launcher</internalName>
-                                <originalFilename>Launcher.exe</originalFilename>
-                            </versionInfo>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-
+    
+    <profiles>
+        <!-- Windows -->
+        <profile>
+            <id>package-win</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                        <artifactId>launch4j-maven-plugin</artifactId>
+                        <version>1.5.2</version>
+                        <executions>
+                            <execution>
+                                <configuration>
+                                    <headerType>gui</headerType>
+                                    <stayAlive>false</stayAlive>
+                                    <jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
+                                    <outfile>${project.build.directory}/${project.artifactId}-${project.version}.exe</outfile>
+                                    <classPath>
+                                        <mainClass>${mainClass}</mainClass>
+                                        <addDependencies>false</addDependencies>
+                                        <preCp>anything</preCp>
+                                    </classPath>
+                                    <jre>
+                                        <minVersion>1.6.0</minVersion>
+                                    </jre>
+                                    <icon>src/main/resources/exeIcon.ico</icon>
+                                    <versionInfo>
+                                        <fileVersion>2.0.0.${buildNumber}</fileVersion>
+                                        <txtFileVersion>2.0.0.${buildNumber}</txtFileVersion>
+                                        <productVersion>2.0.0.${buildNumber}</productVersion>
+                                        <txtProductVersion>2.0.0.${buildNumber}</txtProductVersion>
+                                        <fileDescription>${project.name}</fileDescription>
+                                        <productName>${project.name}</productName>
+                                        <copyright>${project.organization.name}, ${project.organization.url}</copyright>
+                                        <internalName>${project.artifactId}</internalName>
+                                        <originalFilename>${project.artifactId}.exe</originalFilename>
+                                    </versionInfo>
+                                </configuration>
+                                <goals>
+                                    <goal>launch4j</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
     <dependencies>
         <dependency>
             <groupId>commons-codec</groupId>
