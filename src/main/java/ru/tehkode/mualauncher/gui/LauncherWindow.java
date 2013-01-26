@@ -204,7 +204,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 UserCredenitals credenitals = new UserCredenitals(loginField.getText(), passwordField.getPassword());
                 UserAuthorization authorizer = new UserAuthorization(credenitals);
 
-                VersionManager manager = new VersionManager(currentPath, "http://minecraft.com.ua/dl/mods/", false);
+                VersionManager manager = new VersionManager(currentPath, "http://minecraft.com.ua/dl/mods/", options.isForceReload());
                 MinecraftLauncher launcher = new MinecraftLauncher(currentPath, options);
 
                 try {
