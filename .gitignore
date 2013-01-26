@@ -1,1 +1,4 @@
 target/
+Minecraft/
+launcher.options
+server.log
