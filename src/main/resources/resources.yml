@@ -16,6 +16,8 @@ resources:
       download_progress: Скачиваем
       unpacking_progress: Распаковываем 
       language_label: Язык
+      translation_reload_message: Язык поменяется только после перезапуска
+      translation_reload_title: Нужен рестарт
   uk:
     strings:
       window_title: Minecraft
