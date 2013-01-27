@@ -2,7 +2,6 @@
 resources:
   ru:
     strings:
-      window_title: Minecraft
       login_button: Войти
       options_button: Опции
       login_placeholder: Логин
@@ -20,7 +19,6 @@ resources:
       translation_reload_title: Нужен рестарт
   uk:
     strings:
-      window_title: Minecraft
       login_button: Увійти
       options_button: Опції
       login_placeholder: Логін
@@ -36,7 +34,6 @@ resources:
       language_label: Мова
   en: 
     strings: &default
-      window_title: Minecraft
       login_button: Login
       options_button: Settings
       login_placeholder: Login
@@ -54,6 +51,7 @@ resources:
       translation_reload_title: Restart required
   default:
     strings:
+      window_title: Minecraft
       base_url: http://minecraft.com.ua/dl/mods/     
       <<: *default
     assets:
