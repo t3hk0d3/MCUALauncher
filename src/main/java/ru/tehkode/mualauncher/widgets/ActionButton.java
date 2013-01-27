@@ -10,13 +10,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JButton;
 
 /**
  *
  * @author t3hk0d3
  */
-public class ActionButton extends JButton {
+public class ActionButton extends JButton implements MouseListener {
 
     public ActionButton(String text, String action) {
         super(text);
@@ -30,8 +32,9 @@ public class ActionButton extends JButton {
 
         this.setOpaque(false);
         this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        this.addMouseListener(this);
     }
-
+    
     @Override
     protected void paintBorder(Graphics g) {
         g.setColor(getForeground());
@@ -47,4 +50,30 @@ public class ActionButton extends JButton {
 
         super.paintComponent(g);
     }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        this.setBackground(Color.GRAY);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        this.setBackground(Color.WHITE);
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        
+    }
+    
 }
