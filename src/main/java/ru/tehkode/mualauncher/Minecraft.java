@@ -4,7 +4,6 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
 import org.apache.commons.io.FileUtils;
 import ru.tehkode.mualauncher.utils.Logger;
 
@@ -44,7 +43,6 @@ public class Minecraft {
             Logger.error("Something awful happens - %s", e.getMessage());
             e.printStackTrace();
         }
-
     }
 
     private static void injectNewBasepath(Class<?> minecraftClass, File basePath) {
