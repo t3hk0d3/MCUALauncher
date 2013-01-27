@@ -6,12 +6,15 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import ru.tehkode.mualauncher.widgets.ProgressBar;
 
+import static ru.tehkode.mualauncher.utils.Resources.*;
+
 /**
  *
  * @author t3hk0d3
  */
 public class DownaloadWindow extends JFrame {
 
+    private final static String[] SIZES = new String[]{"B", "KB", "MB", "GB"};
     JLabel progress;
     private long maximum = 0;
     private long current = 0;
@@ -19,7 +22,7 @@ public class DownaloadWindow extends JFrame {
     private ProgressBar progressBar = new ProgressBar();
 
     public DownaloadWindow() {
-        super("Downloading...");
+        super(string("download_progress"));
 
         this.setUndecorated(true);
 
@@ -35,7 +38,7 @@ public class DownaloadWindow extends JFrame {
     }
 
     private void initComponents() {
-        progress = new JLabel("Downloading...", SwingConstants.CENTER);
+        progress = new JLabel(string("download_progress") + "...", SwingConstants.CENTER);
 
         progress.setLocation(0, 50);
         progress.setSize(this.getWidth(), 50);
@@ -57,31 +60,27 @@ public class DownaloadWindow extends JFrame {
 
         float percent = 1.0f * current / maximum * 100.0f;
 
-        progress.setText(String.format("Downloading... %.2f%% - %s/%s", percent, formatSize(current), this.maximumSize));
+        progress.setText(String.format("%s... %.2f%% - %s/%s", string("download_progress"), percent, formatSize(current), this.maximumSize));
 
         this.progressBar.setProgress(current);
-
-        this.repaint();
     }
 
     public void setUnpackingProgress(long current) {
         this.current = current;
 
         float percent = 1.0f * current / maximum * 100.0f;
+        
+        this.setTitle(string("unpacking_progress"));
 
-        progress.setText(String.format("Unpacking... %.2f%% - %s/%s", percent, current, this.maximumSize));
+        progress.setText(String.format("%s... %.2f%% - %s/%s", string("unpacking_progress"), percent, current, this.maximumSize));
 
         this.progressBar.setProgress(current);
-
-        this.repaint();
     }
 
     public String formatSize(long size) {
         float currentSize = size;
 
-        String[] sizes = new String[]{"B", "KB", "MB", "GB"};
-
-        for (String label : sizes) {
+        for (String label : SIZES) {
             if (currentSize < 1024) {
                 return String.format("%.2f %s", currentSize, label);
             }

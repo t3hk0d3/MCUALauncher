@@ -1,0 +1,39 @@
+---
+resources:
+  ru:
+    strings:
+      window_title: Minecraft
+      login_button: Войти
+      options_button: Опции
+      login_placeholder: Логин
+      password_placeholder: Пароль
+      remember_checkbox: Запомнить пароль
+      options_window_title: Опции
+      options_done_button: Готово
+      options_cancel_button: Отмена
+      force_reload_button: Перекачать файлы
+      jvm_options_label: Опции JVM
+      download_progress: Скачиваем
+      unpacking_progress: Распаковываем      
+  default:
+    strings:
+      window_title: Minecraft
+      login_button: Login
+      options_button: Settings
+      login_placeholder: Login
+      password_placeholder: Password
+      remember_checkbox: Rembember password
+      options_window_title: Settings
+      options_done_button: Done
+      options_cancel_button: Cancel
+      force_reload_button: Force download
+      jvm_options_label: JVM Options
+      download_progress: Downloading
+      unpacking_progress: Unpacking
+    assets:
+      background: background.png
+      default_font: minecraft.ttf
+      window_icon: icon.png
+      close_button: close.png
+      minimize_button: minimize.png
+      

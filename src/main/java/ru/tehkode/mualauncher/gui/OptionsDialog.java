@@ -2,6 +2,8 @@ package ru.tehkode.mualauncher.gui;
 
 import ru.tehkode.mualauncher.LauncherOptions;
 
+import static ru.tehkode.mualauncher.utils.Resources.*;
+
 /**
  *
  * @author t3hk0d3
@@ -11,7 +13,7 @@ public class OptionsDialog extends javax.swing.JDialog {
     private final LauncherOptions options;
 
     public OptionsDialog(java.awt.Frame parent, LauncherOptions options) {
-        super(parent, "Опции", true);
+        super(parent, string("options_window_title"), true);
         
         this.options = options;
         
@@ -35,23 +37,23 @@ public class OptionsDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        cancelButton.setText("Отмена");
+        cancelButton.setText(string("options_cancel_button"));
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
             }
         });
 
-        doneButton.setText("Готово");
+        doneButton.setText(string("options_done_button"));
         doneButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 doneButtonActionPerformed(evt);
             }
         });
 
-        forceReloadToggle.setText("Force Reload");
+        forceReloadToggle.setText(string("force_reload_button"));
 
-        jLabel1.setText("Опции JVM");
+        jLabel1.setText(string("jvm_options_label"));
 
         jScrollPane1.setViewportView(jvmOptionsText);
         jvmOptionsText.getAccessibleContext().setAccessibleName("");
@@ -73,7 +75,7 @@ public class OptionsDialog extends javax.swing.JDialog {
                         .addGap(20, 20, 20)
                         .addComponent(jScrollPane1))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 145, Short.MAX_VALUE)
+                        .addGap(0, 87, Short.MAX_VALUE)
                         .addComponent(doneButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cancelButton)))

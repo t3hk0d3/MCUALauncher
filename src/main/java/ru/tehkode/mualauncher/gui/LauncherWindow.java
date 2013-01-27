@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,13 +19,14 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
-import ru.tehkode.mualauncher.Launcher;
 import ru.tehkode.mualauncher.LauncherOptions;
 import ru.tehkode.mualauncher.MinecraftLauncher;
 import ru.tehkode.mualauncher.updater.VersionManager;
 import ru.tehkode.mualauncher.session.*;
 import ru.tehkode.mualauncher.widgets.*;
 import ru.tehkode.mualauncher.utils.*;
+
+import static ru.tehkode.mualauncher.utils.Resources.*;
 
 public class LauncherWindow extends JFrame implements ActionListener {
 
@@ -46,7 +46,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
     private MouseDragger dragger = new MouseDragger(this);
 
     public LauncherWindow() throws Exception {
-        super("Minecraft");
+        super(string("window_title"));
         
         if(!currentPath.isDirectory()) {
             if(currentPath.isFile()) { // not actually possible, just in case
@@ -58,7 +58,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
         
          Logger.info("Working directory is '%s'", currentPath.getAbsolutePath());
 
-        this.setIconImage(Resources.getImage("icon.png"));
+        this.setIconImage(Resources.image("window_icon"));
         this.setUndecorated(true);
         this.setLayout(null);
         this.setBackground(new Color(0, 0, 0, 0));
@@ -77,7 +77,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
     }
 
     private void loadResources() throws Exception {
-        this.font = this.loadFont().deriveFont(16.0f);
+        this.font = font("default_font").deriveFont(16.0f);
 
         FontUIResource fontUI = new FontUIResource(this.font);
 
@@ -92,18 +92,12 @@ public class LauncherWindow extends JFrame implements ActionListener {
 
     }
 
-    private Font loadFont() throws Exception {
-        InputStream fontStream = Launcher.class.getResourceAsStream("/minecraft.ttf");
-
-        return Font.createFont(Font.TRUETYPE_FONT, fontStream);
-    }
-
     private void initComponents() throws IOException {
-        ImageComponent backGround = new ImageComponent(Resources.getImage("background.png"));
+        ImageComponent backGround = new ImageComponent(image("background"));
         this.setPreferredSize(backGround.getSize());
         this.setContentPane(backGround);
 
-        JButton closeButton = new JButton(new ImageIcon(Launcher.class.getResource("/close.png")));
+        JButton closeButton = new JButton(new ImageIcon(image("close_button")));
         closeButton.setBorder(BorderFactory.createEmptyBorder());
         closeButton.setContentAreaFilled(false);
         closeButton.setSize(20, 20);
@@ -119,7 +113,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
 
         this.add(closeButton);
 
-        JButton minimizeButton = new JButton(new ImageIcon(Launcher.class.getResource("/minimize.png")));
+        JButton minimizeButton = new JButton(new ImageIcon(image("minimize_button")));
         minimizeButton.setBorder(BorderFactory.createEmptyBorder());
         minimizeButton.setContentAreaFilled(false);
         minimizeButton.setSize(20, 20);
@@ -136,30 +130,30 @@ public class LauncherWindow extends JFrame implements ActionListener {
         this.add(minimizeButton);
 
 
-        final JButton loginButton = new ActionButton("Войти", "login");
+        final JButton loginButton = new ActionButton(string("login_button"), "login");
         loginButton.addActionListener(this);
         loginButton.setSize(90, 25);
         loginButton.setLocation(330, 203);
         this.add(loginButton);
         loginButton.requestFocusInWindow();
 
-        JButton optionsButton = new ActionButton("Опции", "options");
+        JButton optionsButton = new ActionButton(string("options_button"), "options");
         optionsButton.addActionListener(this);
         optionsButton.setSize(90, 25);
         optionsButton.setLocation(330, 240);
         this.add(optionsButton);
 
-        loginField = new PromptField("Логин");
+        loginField = new PromptField(string("login_placeholder"));
         loginField.setSize(250, 25);
         loginField.setLocation(75, 203);
         this.add(loginField);
 
-        passwordField = new PasswordPromptField("Пароль");
+        passwordField = new PasswordPromptField(string("password_placeholder"));
         passwordField.setSize(250, 25);
         passwordField.setLocation(75, 240);
         this.add(passwordField);
 
-        rememberCheckbox = new JCheckBox("Запомнить пароль");
+        rememberCheckbox = new JCheckBox(string("remember_checkbox"));
         rememberCheckbox.setOpaque(false);
         rememberCheckbox.setForeground(Color.white);
         rememberCheckbox.setSize(250, 25);
@@ -243,10 +237,10 @@ public class LauncherWindow extends JFrame implements ActionListener {
                     System.exit(0);
                 } catch (UserAuthorization.BadLoginException e) {
                     Logger.warning("Bad Login");
-                    JOptionPane.showMessageDialog(launcherWindow, "Неверный логин или пароль", "Неверный логин/пароль", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(launcherWindow, string("bad_login_message"), string("bad_login_title"), JOptionPane.ERROR_MESSAGE);
                     loginField.setForeground(Color.red);
                 } catch (Exception e) {
-                    Logger.warning("Login Error - %s", e.getMessage());
+                    Logger.warning("Login Error: (%s) %s", e.getClass().getSimpleName(), e.getMessage());
                 }
                 
                 locked = false;

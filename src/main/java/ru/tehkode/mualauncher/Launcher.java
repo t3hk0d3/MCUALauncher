@@ -6,6 +6,8 @@ import java.awt.GraphicsEnvironment;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import ru.tehkode.mualauncher.utils.Logger;
+import ru.tehkode.mualauncher.utils.Resources;
 
 /**
  * Hello world!
@@ -29,6 +31,8 @@ public class Launcher {
         } catch (Exception e) {
             //
         }
+        
+        Resources.getInstance();
 
         // Create the GUI on the event-dispatching thread
         SwingUtilities.invokeLater(new Runnable() {
@@ -41,7 +45,8 @@ public class Launcher {
 
                     w.setVisible(true);
                 } catch (Throwable e) {
-                    System.out.println("Error: " + e.getMessage());
+                    Logger.error("Laucher Error: (%s) %s", e.getClass().getSimpleName(), e.getMessage());
+                    e.printStackTrace();
                 }
             }
         });
