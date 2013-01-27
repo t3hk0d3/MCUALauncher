@@ -1,6 +1,7 @@
 package ru.tehkode.mualauncher.gui;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Frame;
@@ -102,6 +103,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
         closeButton.setContentAreaFilled(false);
         closeButton.setSize(20, 20);
         closeButton.setLocation(460, 10);
+        closeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         closeButton.addActionListener(new ActionListener() {
             @Override
@@ -117,7 +119,8 @@ public class LauncherWindow extends JFrame implements ActionListener {
         minimizeButton.setContentAreaFilled(false);
         minimizeButton.setSize(20, 20);
         minimizeButton.setLocation(435, 10);
-
+        minimizeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
         minimizeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

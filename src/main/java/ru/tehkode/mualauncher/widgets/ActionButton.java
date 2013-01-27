@@ -5,6 +5,7 @@
 package ru.tehkode.mualauncher.widgets;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -28,6 +29,7 @@ public class ActionButton extends JButton {
         setFocusPainted(false);
 
         this.setOpaque(false);
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
     @Override
