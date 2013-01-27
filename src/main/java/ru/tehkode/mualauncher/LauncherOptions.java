@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Properties;
 import ru.tehkode.mualauncher.utils.Logger;
 
@@ -16,7 +17,7 @@ public class LauncherOptions extends Properties {
     public final static String DEFAULT_JVM_OPTIONS = "-Xms512m -Xmx1024m";
     private boolean forceReload = false;
     private final File file;
-
+    
     public LauncherOptions(File file) {
         this.file = file;
 
@@ -45,6 +46,14 @@ public class LauncherOptions extends Properties {
         }
     }
 
+    public Locale getLocale() {
+        return Locale.forLanguageTag(this.getProperty("language", Locale.getDefault().toLanguageTag())); // quite ugly, huh?
+    }
+
+    public void setLocale(Locale locale) {
+        this.setProperty("language", locale.toLanguageTag());
+    }
+    
     public void setJvmOptions(String options) {
         this.setProperty("jvm-options", options);
     }

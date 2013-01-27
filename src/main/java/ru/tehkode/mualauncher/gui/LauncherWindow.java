@@ -30,49 +30,49 @@ import static ru.tehkode.mualauncher.utils.Resources.*;
 
 public class LauncherWindow extends JFrame implements ActionListener {
 
-    private final File currentPath = PlatformUtils.getApplicationPath("mualauncher");
-    private File loginData = new File(currentPath, "lastLogin");
-    private Font font;
+    private final File currentPath;
     private final LauncherOptions options;
+    private File loginData;
+    private Font font;
     private final OptionsDialog dialog;
-    
     private JTextField loginField;
     private JPasswordField passwordField;
     private JCheckBox rememberCheckbox;
-    
     private boolean locked = false;
-    
-    
     private MouseDragger dragger = new MouseDragger(this);
 
-    public LauncherWindow() throws Exception {
+    public LauncherWindow(File currentPath, LauncherOptions options) throws Exception {
         super(string("window_title"));
-        
-        if(!currentPath.isDirectory()) {
-            if(currentPath.isFile()) { // not actually possible, just in case
+
+
+        if (!currentPath.isDirectory()) {
+            if (currentPath.isFile()) { // not actually possible, just in case
                 currentPath.delete();
             }
-            
+
             currentPath.mkdirs();
         }
-        
-         Logger.info("Working directory is '%s'", currentPath.getAbsolutePath());
+
+        this.currentPath = currentPath;
+        this.options = options;
+        this.loginData = new File(currentPath, "lastLogin");
+
+        Logger.info("Working directory is '%s'", currentPath.getAbsolutePath());
 
         this.setIconImage(Resources.image("window_icon"));
         this.setUndecorated(true);
         this.setLayout(null);
         this.setBackground(new Color(0, 0, 0, 0));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         this.loadResources();
 
-        this.options = new LauncherOptions(new File(currentPath, "launcher.options"));
         this.dialog = new OptionsDialog(this, options);
 
         this.initComponents();
-        
+
         this.pack();
-       
+
         this.setLocationRelativeTo(null);
     }
 
@@ -119,7 +119,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
         minimizeButton.setSize(20, 20);
         minimizeButton.setLocation(435, 10);
         minimizeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
+
         minimizeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -194,11 +194,11 @@ public class LauncherWindow extends JFrame implements ActionListener {
     }
 
     public void performLogin() {
-        if(this.locked) {
+        if (this.locked) {
             Logger.warning("Already launched!");
             return;
         }
-        
+
         this.locked = true;
 
         final LauncherWindow launcherWindow = this;
@@ -242,7 +242,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 } catch (Exception e) {
                     Logger.warning("Login Error: (%s) %s", e.getClass().getSimpleName(), e.getMessage());
                 }
-                
+
                 locked = false;
             }
         });

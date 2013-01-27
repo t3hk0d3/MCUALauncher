@@ -3,10 +3,12 @@ package ru.tehkode.mualauncher;
 import ru.tehkode.mualauncher.gui.LauncherWindow;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import ru.tehkode.mualauncher.utils.Logger;
+import ru.tehkode.mualauncher.utils.PlatformUtils;
 import ru.tehkode.mualauncher.utils.Resources;
 
 /**
@@ -32,14 +34,17 @@ public class Launcher {
             //
         }
         
-        Resources.getInstance();
+        final File currentPath = PlatformUtils.getApplicationPath("mualauncher");
+        final LauncherOptions options = new LauncherOptions(new File(currentPath, "launcher.options"));
+        
+        Resources.initialize(options);
 
         // Create the GUI on the event-dispatching thread
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 try {
-                    JFrame w = new LauncherWindow();
+                    JFrame w = new LauncherWindow(currentPath, options);
                     //w.setSize(300, 300);
                     //w.setLocation(500, 100);
 

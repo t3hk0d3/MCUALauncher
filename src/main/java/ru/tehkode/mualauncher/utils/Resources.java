@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Set;
 import javax.imageio.ImageIO;
 import org.yaml.snakeyaml.Yaml;
+import ru.tehkode.mualauncher.Launcher;
+import ru.tehkode.mualauncher.LauncherOptions;
 
 /**
  *
@@ -25,10 +27,14 @@ public class Resources {
 
     public static Resources getInstance() {
         if (instance == null) {
-            instance = new Resources();
+            throw new RuntimeException("Resource manager not initialized!");
         }
 
         return instance;
+    }
+    
+    public static Resources initialize(LauncherOptions options) {
+        return(instance = new Resources(options));
     }
 
     // Static singleton methods
@@ -49,8 +55,8 @@ public class Resources {
     
     private Set<String> availableLanguages;
 
-    private Resources() {
-        this.loadResources();
+    private Resources(LauncherOptions options) {
+        this.loadResources(options.getLocale());
 
         Logger.info("%d translations and %d assets available", strings.size(), assets.size());
 
@@ -88,9 +94,7 @@ public class Resources {
         return locales;
     }
 
-    private void loadResources() {
-        Locale locale = Locale.getDefault();
-
+    private void loadResources(Locale locale) {
         Map<String, ?> manifest = loadResourceManifest();
 
         Logger.info("Current locale - %s", locale.toString());
