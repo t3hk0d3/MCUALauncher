@@ -21,7 +21,8 @@ public class OptionsDialog extends javax.swing.JDialog {
         
         this.setLocationRelativeTo(parent);
         
-        this.jvmOptionsText.setText(this.options.getJvmOptions());        
+        this.jvmOptionsText.setText(this.options.getJvmOptions());       
+        this.forceReloadToggle.setSelected(this.options.isForceReload());
     }
 
     @SuppressWarnings("unchecked")
