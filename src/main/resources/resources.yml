@@ -15,6 +15,21 @@ resources:
       jvm_options_label: Опции JVM
       download_progress: Скачиваем
       unpacking_progress: Распаковываем 
+  uk:
+    strings:
+      window_title: Minecraft
+      login_button: Увійти
+      options_button: Опції
+      login_placeholder: Логін
+      password_placeholder: Пароль
+      remember_checkbox: Запам'ятати пароль
+      options_window_title: Опції
+      options_done_button: Готово
+      options_cancel_button: Скасування
+      force_reload_button: Перекачати файли
+      jvm_options_label: Опції JVM
+      download_progress: Завантажуємо
+      unpacking_progress: Розпаковуємо
   default:
     strings:
       base_url: http://minecraft.com.ua/dl/mods/
