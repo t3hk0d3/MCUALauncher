@@ -37,6 +37,9 @@ resources:
       language_label: Мова
       translation_reload_message: Мова зміниться тільки після перезапуску
       translation_reload_title: Потрібен рестарт
+      server_online_status: Сервер працює
+      server_offline_status: Сервер не працює
+      player_online_status: Гравців на сервері - %d/%d
   en: 
     strings: &default
       login_button: Login
