@@ -35,9 +35,14 @@ public class LauncherWindow extends JFrame implements ActionListener {
     private Font font;
     private final LauncherOptions options;
     private final OptionsDialog dialog;
+    
     private JTextField loginField;
     private JPasswordField passwordField;
     private JCheckBox rememberCheckbox;
+    
+    private boolean locked = false;
+    
+    
     private MouseDragger dragger = new MouseDragger(this);
 
     public LauncherWindow() throws Exception {
@@ -195,6 +200,12 @@ public class LauncherWindow extends JFrame implements ActionListener {
     }
 
     public void performLogin() {
+        if(this.locked) {
+            Logger.warning("Already launched!");
+            return;
+        }
+        
+        this.locked = true;
 
         final LauncherWindow launcherWindow = this;
 
@@ -237,11 +248,11 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 } catch (Exception e) {
                     Logger.warning("Login Error - %s", e.getMessage());
                 }
+                
+                locked = false;
             }
         });
 
         thread.start();
-
-
     }
 }
