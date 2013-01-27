@@ -9,14 +9,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 import ru.tehkode.mualauncher.LauncherOptions;
@@ -40,6 +45,9 @@ public class LauncherWindow extends JFrame implements ActionListener {
     private JCheckBox rememberCheckbox;
     private boolean locked = false;
     private MouseDragger dragger = new MouseDragger(this);
+    
+    private JLabel statusLabel;
+    private JLabel playersOnlineLabel;
 
     public LauncherWindow(File currentPath, LauncherOptions options) throws Exception {
         super(string("window_title"));
@@ -74,6 +82,8 @@ public class LauncherWindow extends JFrame implements ActionListener {
         this.pack();
 
         this.setLocationRelativeTo(null);
+
+        this.pollServer();
     }
 
     private void loadResources() throws Exception {
@@ -160,6 +170,22 @@ public class LauncherWindow extends JFrame implements ActionListener {
         rememberCheckbox.setLocation(75, 270);
 
         this.add(rememberCheckbox);
+        
+        statusLabel = new JLabel("Сервер работает", SwingConstants.CENTER);
+        statusLabel.setForeground(Color.white);
+        statusLabel.setLocation(0, 130);
+        statusLabel.setSize(500, 30);
+        statusLabel.setVisible(false);
+        
+        this.add(statusLabel);
+        
+        playersOnlineLabel = new JLabel("Игроков на сервере - 10/20", SwingConstants.CENTER);
+        playersOnlineLabel.setForeground(Color.white);
+        playersOnlineLabel.setLocation(0, 160);
+        playersOnlineLabel.setSize(500, 30);
+        playersOnlineLabel.setVisible(false);
+        
+        this.add(playersOnlineLabel);
 
         if (loginData.exists()) {
             try {
@@ -248,5 +274,36 @@ public class LauncherWindow extends JFrame implements ActionListener {
         });
 
         thread.start();
+    }
+
+    private void pollServer() {
+        try {
+            final ServerStatusPoller poller = new ServerStatusPoller(new URL(string("server_status_url")));
+
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Logger.info("Polling server status");
+                        ServerStatusPoller.ServerStatus status = poller.pollStatus();
+                        
+                        Logger.info("Got response - (status: %b, players: %d/%d)", status.isOnline(), status.getOnlinePlayers(), status.getTotalPlayers());
+                        
+                        statusLabel.setText(status.isOnline() ? string("server_online_status") : string("server_offine_status"));
+                        statusLabel.setVisible(true);
+                        
+                        if(status.isOnline()) {
+                            playersOnlineLabel.setText(String.format(string("player_online_status"), status.getOnlinePlayers(), status.getTotalPlayers()));
+                            playersOnlineLabel.setVisible(true);
+                        } 
+                    } catch (Exception e) {
+                        Logger.warning("Can't poll server status - (%s) %s", e.getClass().getSimpleName(), e.getMessage());
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            Logger.warning("Can't poll server status - %s", e.getMessage());
+        }
     }
 }
