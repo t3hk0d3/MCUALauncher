@@ -11,10 +11,6 @@ import ru.tehkode.mualauncher.utils.Logger;
 import ru.tehkode.mualauncher.utils.PlatformUtils;
 import ru.tehkode.mualauncher.utils.Resources;
 
-/**
- * Hello world!
- *
- */
 public class Launcher {
 
     public static void main(String[] args) {

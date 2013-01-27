@@ -6,14 +6,13 @@ package ru.tehkode.mualauncher.utils;
 
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.util.Arrays;
 import java.util.Enumeration;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
-import org.apache.commons.codec.binary.Base64;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  *
@@ -22,30 +21,29 @@ import org.apache.commons.codec.binary.Base64;
 public class CryptoUtils {
 
     private final static String ALGORITHM = "PBEWithMD5AndDES";
-    private final Base64 base64 = new Base64();
     private byte[] salt = { // default values
         (byte) 0xc7, (byte) 0x73, (byte) 0x21, (byte) 0x8c,
         (byte) 0x7e, (byte) 0xc8, (byte) 0xee, (byte) 0x99
     };
     private final PBEKeySpec key;
-    
+
     public CryptoUtils() {
         this.key = generateKey();
     }
 
     public CryptoUtils(String salt) {
         this();
-        
+
         // @todo generate 8byte salt from given
         // this.salt = salt.getBytes();
     }
 
     public String decode(String encrypted) {
-        return new String(crypt(Cipher.DECRYPT_MODE, base64.decode(encrypted)));
+        return new String(crypt(Cipher.DECRYPT_MODE, DatatypeConverter.parseBase64Binary(encrypted)));
     }
 
     public String encrypt(String data) {
-        return base64.encodeAsString(crypt(Cipher.ENCRYPT_MODE, data.getBytes()));
+        return DatatypeConverter.printBase64Binary(crypt(Cipher.ENCRYPT_MODE, data.getBytes()));
     }
 
     private byte[] crypt(final int mode, byte[] data) {

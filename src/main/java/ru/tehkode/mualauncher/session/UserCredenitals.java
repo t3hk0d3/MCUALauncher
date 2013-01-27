@@ -9,10 +9,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.CharBuffer;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
+import javax.xml.bind.DatatypeConverter;
 import ru.tehkode.mualauncher.utils.CryptoUtils;
-import ru.tehkode.mualauncher.utils.Logger;
 
 /**
  * UserCredenital bean
@@ -70,7 +68,7 @@ public class UserCredenitals {
 
             String data = String.format("%s|%s", this.getLogin(), this.getEncryptedPassword());
 
-            writer.write(Base64.encodeBase64String(data.getBytes()));
+            writer.write(DatatypeConverter.printBase64Binary(data.getBytes()));
         } finally {
             if (writer != null) {
                 writer.close();
@@ -87,8 +85,8 @@ public class UserCredenitals {
             reader.read(buffer);
             buffer.flip();
 
-            String data = new String(Base64.decodeBase64(buffer.toString()));
-
+            String data = new String(DatatypeConverter.parseBase64Binary(buffer.toString()));
+            
             String[] credenitals = data.split("\\|", 2);
 
             String login = credenitals[0];
