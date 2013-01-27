@@ -2,4 +2,5 @@ target/
 Minecraft/
 launcher.options
 server.log
-server.log.lck
+server.log.lck.idea/
+.idea
