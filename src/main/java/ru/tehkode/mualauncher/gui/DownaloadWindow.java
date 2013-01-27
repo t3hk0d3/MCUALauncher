@@ -29,7 +29,7 @@ public class DownaloadWindow extends JFrame {
         this.setLocationRelativeTo(null);
         this.setBackground(new Color(0, 0, 0, 0));
         
-        this.setSize(400, 100);
+        this.setSize(500, 80);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                
