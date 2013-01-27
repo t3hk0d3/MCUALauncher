@@ -93,7 +93,9 @@ public class LanguageComboBox extends JComboBox<LanguageItem> {
         
         @Override
         public String toString() {
-            return locale.getDisplayLanguage(locale);
+            String localeName = locale.getDisplayLanguage(locale);
+            
+            return localeName.substring(0, 1).toUpperCase(locale) + localeName.substring(1);
         }
     }
 }
