@@ -6,17 +6,14 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -25,51 +22,47 @@ import javax.swing.plaf.FontUIResource;
 import ru.tehkode.mualauncher.Launcher;
 import ru.tehkode.mualauncher.LauncherOptions;
 import ru.tehkode.mualauncher.MinecraftLauncher;
-import ru.tehkode.mualauncher.session.UserCredenitals;
-import ru.tehkode.mualauncher.session.UserAuthorization;
-import ru.tehkode.mualauncher.session.UserSession;
-import ru.tehkode.mualauncher.widgets.ActionButton;
-import ru.tehkode.mualauncher.widgets.ImageComponent;
-import ru.tehkode.mualauncher.utils.Logger;
-import ru.tehkode.mualauncher.widgets.MouseDragger;
-import ru.tehkode.mualauncher.widgets.PasswordPromptField;
-import ru.tehkode.mualauncher.widgets.PromptField;
 import ru.tehkode.mualauncher.updater.VersionManager;
+import ru.tehkode.mualauncher.session.*;
+import ru.tehkode.mualauncher.widgets.*;
+import ru.tehkode.mualauncher.utils.*;
 
 public class LauncherWindow extends JFrame implements ActionListener {
 
-    private final File currentPath = new File("Minecraft");
+    private final File currentPath = PlatformUtils.getApplicationPath("mualauncher");
     private File loginData = new File(currentPath, "lastLogin");
-    final LauncherWindow window = this;
-    final BufferedImage image;
     private Font font;
     private final LauncherOptions options;
     private final OptionsDialog dialog;
     private JTextField loginField;
     private JPasswordField passwordField;
     private JCheckBox rememberCheckbox;
+    private MouseDragger dragger = new MouseDragger(this);
 
     public LauncherWindow() throws Exception {
         super("Minecraft");
         
-        this.setIconImage(ImageIO.read(Launcher.class.getResourceAsStream("/icon.png")));
+        if(!currentPath.isDirectory()) {
+            if(currentPath.isFile()) { // not actually possible, just in case
+                currentPath.delete();
+            }
+            
+            currentPath.mkdirs();
+        }
+        
+         Logger.info("Working directory is '%s'", currentPath.getAbsolutePath());
+
+        this.setIconImage(Resources.getImage("icon.png"));
 
         this.setUndecorated(true);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.setBackground(new Color(0, 0, 0, 0));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        MouseDragger dragger = new MouseDragger(this);
-
+        
         this.loadResources();
 
-        image = ImageIO.read(Launcher.class.getResourceAsStream("/background.png"));
-        ImageComponent backGround = new ImageComponent(image);
-        this.setPreferredSize(backGround.getSize());
-        this.setContentPane(backGround);
-
-        this.options = new LauncherOptions(new File("launcher.options"));
+        this.options = new LauncherOptions(new File(currentPath, "launcher.options"));
         this.dialog = new OptionsDialog(this, options);
 
         this.initComponents();
@@ -99,38 +92,42 @@ public class LauncherWindow extends JFrame implements ActionListener {
         return Font.createFont(Font.TRUETYPE_FONT, fontStream);
     }
 
-    private void initComponents() {
+    private void initComponents() throws IOException {
+        ImageComponent backGround = new ImageComponent(Resources.getImage("background.png"));
+        this.setPreferredSize(backGround.getSize());
+        this.setContentPane(backGround);
+
         JButton closeButton = new JButton(new ImageIcon(Launcher.class.getResource("/close.png")));
         closeButton.setBorder(BorderFactory.createEmptyBorder());
         closeButton.setContentAreaFilled(false);
         closeButton.setSize(20, 20);
         closeButton.setLocation(460, 10);
-        
+
         closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
-        
+
         this.add(closeButton);
-        
+
         JButton minimizeButton = new JButton(new ImageIcon(Launcher.class.getResource("/minimize.png")));
         minimizeButton.setBorder(BorderFactory.createEmptyBorder());
         minimizeButton.setContentAreaFilled(false);
         minimizeButton.setSize(20, 20);
         minimizeButton.setLocation(435, 10);
-        
+
         minimizeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setState(Frame.ICONIFIED);
             }
         });
-        
+
         this.add(minimizeButton);
-        
-        
+
+
         final JButton loginButton = new ActionButton("Войти", "login");
         loginButton.addActionListener(this);
         loginButton.setSize(90, 25);
@@ -165,10 +162,10 @@ public class LauncherWindow extends JFrame implements ActionListener {
         if (loginData.exists()) {
             try {
                 UserCredenitals credenitals = UserCredenitals.readFromDisk(loginData);
-                
+
                 loginField.setText(credenitals.getLogin());
                 passwordField.setText(credenitals.getPassword());
-                
+
                 rememberCheckbox.setSelected(true);
             } catch (Throwable e) {
                 Logger.warning("Failed to read last login data - %s", e.getMessage());
@@ -221,14 +218,14 @@ public class LauncherWindow extends JFrame implements ActionListener {
                     manager.checkForUpdates();
 
                     Process minecraftProcess = launcher.launchMinecraft(session);
-                    
+
                     Logger.info("Children minecraft process created...");
-                    
+
                     // freeze this thread until minecraft closed
                     minecraftProcess.waitFor();
-                    
+
                     Logger.info("Children process was terminated. Exiting...");
-                    
+
                     System.exit(0);
                 } catch (UserAuthorization.BadLoginException e) {
                     Logger.warning("Bad Login");
