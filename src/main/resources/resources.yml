@@ -32,6 +32,8 @@ resources:
       download_progress: Завантажуємо
       unpacking_progress: Розпаковуємо
       language_label: Мова
+      translation_reload_message: Мова зміниться тільки після перезапуску
+      translation_reload_title: Потрібен рестарт
   en: 
     strings: &default
       login_button: Login
