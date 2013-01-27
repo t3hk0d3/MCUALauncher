@@ -37,7 +37,7 @@ public class Launcher {
                 try {
                     JFrame w = new LauncherWindow();
                     //w.setSize(300, 300);
-                    w.setLocation(500, 100);
+                    //w.setLocation(500, 100);
 
                     w.setVisible(true);
                 } catch (Throwable e) {

@@ -59,9 +59,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
          Logger.info("Working directory is '%s'", currentPath.getAbsolutePath());
 
         this.setIconImage(Resources.getImage("icon.png"));
-
         this.setUndecorated(true);
-        this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.setBackground(new Color(0, 0, 0, 0));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,8 +70,10 @@ public class LauncherWindow extends JFrame implements ActionListener {
         this.dialog = new OptionsDialog(this, options);
 
         this.initComponents();
-
+        
         this.pack();
+       
+        this.setLocationRelativeTo(null);
     }
 
     private void loadResources() throws Exception {
