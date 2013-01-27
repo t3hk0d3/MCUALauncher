@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Set;
 import javax.imageio.ImageIO;
 import org.yaml.snakeyaml.Yaml;
-import ru.tehkode.mualauncher.Launcher;
 import ru.tehkode.mualauncher.LauncherOptions;
 
 /**
