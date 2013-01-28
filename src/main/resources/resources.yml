@@ -63,7 +63,7 @@ resources:
   default:
     strings:
       window_title: Minecraft
-      base_url: http://minecraft.com.ua/dl/mods/     
+      base_url: http://dl.minecraft.com.ua/mods/     
       server_status_url: http://minecraft.com.ua/status/mods/
       <<: *default
     assets:
