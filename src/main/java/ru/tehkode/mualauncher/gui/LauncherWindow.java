@@ -45,7 +45,6 @@ public class LauncherWindow extends JFrame implements ActionListener {
     private JCheckBox rememberCheckbox;
     private boolean locked = false;
     private MouseDragger dragger = new MouseDragger(this);
-    
     private JLabel statusLabel;
     private JLabel playersOnlineLabel;
 
@@ -170,21 +169,21 @@ public class LauncherWindow extends JFrame implements ActionListener {
         rememberCheckbox.setLocation(75, 270);
 
         this.add(rememberCheckbox);
-        
+
         statusLabel = new JLabel("Сервер работает", SwingConstants.CENTER);
         statusLabel.setForeground(Color.white);
         statusLabel.setLocation(0, 130);
         statusLabel.setSize(500, 30);
         statusLabel.setVisible(false);
-        
+
         this.add(statusLabel);
-        
+
         playersOnlineLabel = new JLabel("Игроков на сервере - 10/20", SwingConstants.CENTER);
         playersOnlineLabel.setForeground(Color.white);
         playersOnlineLabel.setLocation(0, 160);
         playersOnlineLabel.setSize(500, 30);
         playersOnlineLabel.setVisible(false);
-        
+
         this.add(playersOnlineLabel);
 
         if (loginData.exists()) {
@@ -239,8 +238,14 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 MinecraftLauncher launcher = new MinecraftLauncher(currentPath, options);
 
                 try {
+                    UserSession session;
 
-                    UserSession session = authorizer.authorize();
+                    try {
+                        session = authorizer.authorize();
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(launcherWindow, string("auth_server_down"), string("auth_server_down_title"), JOptionPane.ERROR_MESSAGE);
+                        throw e; // abort process
+                    }
 
                     if (rememberCheckbox.isSelected()) {
                         Logger.info("Saving login data on disk");
@@ -286,16 +291,16 @@ public class LauncherWindow extends JFrame implements ActionListener {
                     try {
                         Logger.info("Polling server status");
                         ServerStatusPoller.ServerStatus status = poller.pollStatus();
-                        
+
                         Logger.info("Got response - (status: %b, players: %d/%d)", status.isOnline(), status.getOnlinePlayers(), status.getTotalPlayers());
-                        
+
                         statusLabel.setText(status.isOnline() ? string("server_online_status") : string("server_offine_status"));
                         statusLabel.setVisible(true);
-                        
-                        if(status.isOnline()) {
+
+                        if (status.isOnline()) {
                             playersOnlineLabel.setText(String.format(string("player_online_status"), status.getOnlinePlayers(), status.getTotalPlayers()));
                             playersOnlineLabel.setVisible(true);
-                        } 
+                        }
                     } catch (Exception e) {
                         Logger.warning("Can't poll server status - (%s) %s", e.getClass().getSimpleName(), e.getMessage());
                     }
