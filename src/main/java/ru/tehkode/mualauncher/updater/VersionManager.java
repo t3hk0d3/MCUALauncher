@@ -121,13 +121,13 @@ public class VersionManager {
 
             Logger.info("Downloading...");
             this.copyStreams(connection.getInputStream(), new FileOutputStream(tempZip), connection.getContentLengthLong());
-            
+
             Logger.info("Unpacking");
 
             unpackZip(tempZip);
-            
+
             Logger.info("Removing temporary file");
-            
+
             tempZip.delete();
 
             progressWindow.setVisible(false);
@@ -166,13 +166,13 @@ public class VersionManager {
             destFile.createNewFile();
 
             this.copyStreams(zip.getInputStream(entry), new FileOutputStream(destFile), 0);
-            
+
             this.progressWindow.setUnpackingProgress(++processed);
         }
     }
 
     private void copyStreams(InputStream is, OutputStream os, long total) throws IOException {
-        ByteBuffer buffer = ByteBuffer.allocate(4096);
+        ByteBuffer buffer = ByteBuffer.allocate(10240);
         ReadableByteChannel rc = null;
         WritableByteChannel wc = null;
 
@@ -182,14 +182,21 @@ public class VersionManager {
 
             int read;
             long readed = 0;
+
+            int delta = 0;
+            long start = System.currentTimeMillis();
+
             while ((read = rc.read(buffer)) > 0) {
                 buffer.flip();
                 wc.write(buffer);
                 buffer.clear();
                 readed += read;
-
-                if (total > 0) {
-                    progressWindow.setDownloadProgress(readed);
+                
+                if (delta < 102400) { // update on delta overflow only
+                    delta += read;
+                } else if (total > 0) {
+                    progressWindow.setDownloadProgress(readed, (int)(readed / (System.currentTimeMillis() - start))*1000);
+                    delta = 0;
                 }
             }
 

@@ -55,12 +55,12 @@ public class DownaloadWindow extends JFrame {
         this.progressBar.setMaximum(maximum);
     }
 
-    public void setDownloadProgress(long current) {
+    public void setDownloadProgress(long current, int speed) {
         this.current = current;
 
         float percent = 1.0f * current / maximum * 100.0f;
 
-        progress.setText(String.format("%s... %.2f%% - %s/%s", string("download_progress"), percent, formatSize(current), this.maximumSize));
+        progress.setText(String.format("%.2f%% - %s/%s (%s/s)", percent, formatSize(current), this.maximumSize, formatSize(speed)));
 
         this.progressBar.setProgress(current);
     }
@@ -72,7 +72,7 @@ public class DownaloadWindow extends JFrame {
         
         this.setTitle(string("unpacking_progress"));
 
-        progress.setText(String.format("%s... %.2f%% - %s/%s", string("unpacking_progress"), percent, current, this.maximumSize));
+        progress.setText(String.format("%.2f%% - %d/%d", percent, current, this.maximum));
 
         this.progressBar.setProgress(current);
     }
