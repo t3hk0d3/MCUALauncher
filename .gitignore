@@ -4,3 +4,4 @@ launcher.options
 server.log
 server.log.lck.idea/
 .idea
+dependency-reduced-pom.xml
