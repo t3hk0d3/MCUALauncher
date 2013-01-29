@@ -64,7 +64,7 @@ resources:
       player_online_status: Players online - %d/%d
       translation_reload_message: Restart launcher to change language
       translation_reload_title: Restart required
-      auth_server_down: Login server not available
+      auth_server_down: Login server is not available
       auth_server_down_title: Unable to authorize
   default:
     strings:
