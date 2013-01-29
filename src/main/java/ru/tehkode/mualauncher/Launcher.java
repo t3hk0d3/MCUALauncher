@@ -13,7 +13,7 @@ import ru.tehkode.mualauncher.utils.Resources;
 
 public class Launcher {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         GraphicsEnvironment ge =
                 GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
@@ -29,13 +29,16 @@ public class Launcher {
         } catch (Exception e) {
             //
         }
-        
+
         System.setProperty("http.agent", "MUALauncher/1.0");
-        
+
         final File currentPath = PlatformUtils.getApplicationPath("mualauncher");
         final LauncherOptions options = new LauncherOptions(new File(currentPath, "launcher.options"));
-        
+
         Resources.initialize(options);
+
+        // initalize logger output        
+        Logger.initialize(new File(currentPath, "launcher.log"));
 
         // Create the GUI on the event-dispatching thread
         SwingUtilities.invokeLater(new Runnable() {
