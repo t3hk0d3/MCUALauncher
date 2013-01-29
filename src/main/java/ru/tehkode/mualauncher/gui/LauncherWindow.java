@@ -259,7 +259,9 @@ public class LauncherWindow extends JFrame implements ActionListener {
                     Process minecraftProcess = launcher.launchMinecraft(session);
 
                     Logger.info("Children minecraft process created...");
-
+                    
+                    System.exit(0); // exit right after minecraft process created. ahoy!
+                    
                     // freeze this thread until minecraft closed
                     minecraftProcess.waitFor();
 
