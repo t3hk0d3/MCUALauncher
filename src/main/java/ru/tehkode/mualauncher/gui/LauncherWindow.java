@@ -269,7 +269,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
 
                     System.exit(0);
                 } catch (UserAuthorization.BadLoginException e) {
-                    Logger.warning("Bad Login");
+                    Logger.warning("Authentication failed - Bad Login");
                     JOptionPane.showMessageDialog(launcherWindow, string("bad_login_message"), string("bad_login_title"), JOptionPane.ERROR_MESSAGE);
                     loginField.setForeground(Color.red);
                 } catch (Exception e) {
