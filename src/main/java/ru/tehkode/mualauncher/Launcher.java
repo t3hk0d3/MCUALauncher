@@ -30,6 +30,8 @@ public class Launcher {
             //
         }
         
+        System.setProperty("http.agent", "MUALauncher/1.0");
+        
         final File currentPath = PlatformUtils.getApplicationPath("mualauncher");
         final LauncherOptions options = new LauncherOptions(new File(currentPath, "launcher.options"));
         
