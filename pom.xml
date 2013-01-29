@@ -53,6 +53,12 @@
                 <configuration>
                     <shadedArtifactAttached>true</shadedArtifactAttached>
                     <shadedClassifierName>shaded</shadedClassifierName>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>ru.tehkode.mualauncher.Launcher</mainClass>
+                            <Build-Number>${buildNumber}</Build-Number>
+                        </transformer>
+                    </transformers>
                 </configuration>
             </plugin>
         </plugins>
@@ -86,7 +92,7 @@
                                         <preCp>anything</preCp>
                                     </classPath>
                                     <jre>
-                                        <minVersion>1.6.0</minVersion>
+                                        <minVersion>1.7.0</minVersion>
                                     </jre>
                                     <icon>src/main/resources/exeIcon.ico</icon>
                                     <versionInfo>
@@ -96,7 +102,60 @@
                                         <txtProductVersion>2.0.0.${buildNumber}</txtProductVersion>
                                         <fileDescription>${project.name}</fileDescription>
                                         <productName>${project.name}</productName>
-                                        <copyright>${project.organization.name}, ${project.organization.url}</copyright>
+                                        <copyright>t3hk0d3</copyright>
+                                        <internalName>${project.artifactId}</internalName>
+                                        <originalFilename>${project.artifactId}.exe</originalFilename>
+                                    </versionInfo>
+                                </configuration>
+                                <goals>
+                                    <goal>launch4j</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        <!-- Build packages for all platforms -->
+        <profile>
+            <id>jenkins</id>
+            <activation>
+                <property>
+                    <name>env.BUILD_NUMBER</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                        <artifactId>launch4j-maven-plugin</artifactId>
+                        <version>1.5.2</version>
+                        <executions>
+                            <execution>
+                                <configuration>
+                                    <headerType>gui</headerType>
+                                    <stayAlive>false</stayAlive>
+                                    <jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
+                                    <outfile>${project.build.directory}/${project.artifactId}-${project.version}.exe</outfile>
+                                    <classPath>
+                                        <mainClass>${mainClass}</mainClass>
+                                        <addDependencies>false</addDependencies>
+                                        <preCp>anything</preCp>
+                                    </classPath>
+                                    <jre>
+                                        <minVersion>1.7.0</minVersion>
+                                    </jre>
+                                    <icon>src/main/resources/exeIcon.ico</icon>
+                                    <versionInfo>
+                                        <fileVersion>2.0.0.${buildNumber}</fileVersion>
+                                        <txtFileVersion>2.0.0.${buildNumber}</txtFileVersion>
+                                        <productVersion>2.0.0.${buildNumber}</productVersion>
+                                        <txtProductVersion>2.0.0.${buildNumber}</txtProductVersion>
+                                        <fileDescription>${project.name}</fileDescription>
+                                        <productName>${project.name}</productName>
+                                        <copyright>t3hk0d3</copyright>
                                         <internalName>${project.artifactId}</internalName>
                                         <originalFilename>${project.artifactId}.exe</originalFilename>
                                     </versionInfo>
