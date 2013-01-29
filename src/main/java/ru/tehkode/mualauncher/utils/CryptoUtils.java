@@ -21,21 +21,15 @@ import javax.xml.bind.DatatypeConverter;
 public class CryptoUtils {
 
     private final static String ALGORITHM = "PBEWithMD5AndDES";
-    private byte[] salt = { // default values
+    private final static byte[] SALT = { // default values
         (byte) 0xc7, (byte) 0x73, (byte) 0x21, (byte) 0x8c,
         (byte) 0x7e, (byte) 0xc8, (byte) 0xee, (byte) 0x99
     };
+    
     private final PBEKeySpec key;
-
-    public CryptoUtils() {
-        this.key = generateKey();
-    }
-
-    public CryptoUtils(String salt) {
-        this();
-
-        // @todo generate 8byte salt from given
-        // this.salt = salt.getBytes();
+    
+    public CryptoUtils(String salt) {        
+        this.key = this.generateKey(salt.getBytes());       
     }
 
     public String decode(String encrypted) {
@@ -54,7 +48,7 @@ public class CryptoUtils {
 
             Cipher pbeCipher = Cipher.getInstance(ALGORITHM);
 
-            pbeCipher.init(mode, secretKey, new PBEParameterSpec(this.salt, 8));
+            pbeCipher.init(mode, secretKey, new PBEParameterSpec(SALT, 8));
 
             return pbeCipher.doFinal(data);
 
@@ -63,7 +57,11 @@ public class CryptoUtils {
         }
     }
 
-    private PBEKeySpec generateKey() {
+    private PBEKeySpec generateKey(byte[] salt) {
+        return new PBEKeySpec(DatatypeConverter.printHexBinary(prepareKey()).toCharArray(), salt, 20);        
+    }
+    
+    private byte[] prepareKey() {
         try {
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             while (interfaces.hasMoreElements()) {
@@ -75,13 +73,13 @@ public class CryptoUtils {
                     continue;
                 }
 
-                return new PBEKeySpec(new String(mac).toCharArray());
+                return mac;
             }
         } catch (SocketException e) {
             Logger.error("Couldn't determine MAC address. Fallback to insecure mode");
         }
 
         // default key
-        return new PBEKeySpec(new char[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
+        return new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
     }
 }
