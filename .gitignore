@@ -1,7 +1,6 @@
 target/
 Minecraft/
 launcher.options
-server.log
-server.log.lck.idea/
+server.*
 .idea
 dependency-reduced-pom.xml
