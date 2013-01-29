@@ -85,7 +85,7 @@
                                 <configuration>
                                     <headerType>gui</headerType>
                                     <stayAlive>false</stayAlive>
-                                    <jar>${project.build.directory}/${project.build.finalName}-shaded.jar</jar>
+                                    <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
                                     <outfile>${project.build.directory}/${project.artifactId}-${project.version}.exe</outfile>
                                     <classPath>
                                         <mainClass>${mainClass}</mainClass>
@@ -138,7 +138,7 @@
                                 <configuration>
                                     <headerType>gui</headerType>
                                     <stayAlive>false</stayAlive>
-                                    <jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
+                                    <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
                                     <outfile>${project.build.directory}/${project.artifactId}-${project.version}.exe</outfile>
                                     <classPath>
                                         <mainClass>${mainClass}</mainClass>
