@@ -133,14 +133,14 @@ public class Resources {
         }
     }
 
-    private void loadStrings(Map<String, String> strings) {
-        for (Map.Entry<String, String> entry : strings.entrySet()) {
-            String value = entry.getValue();
+    private void loadStrings(Map<String, ?> strings) {
+        for (Map.Entry<String, ?> entry : strings.entrySet()) {
+            String value = entry.getValue().toString();
             if (value == null || value.isEmpty()) {
                 continue;
             }
 
-            this.strings.put(entry.getKey().toLowerCase(), entry.getValue());
+            this.strings.put(entry.getKey().toLowerCase(), value);
         }
     }
     
