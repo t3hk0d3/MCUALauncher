@@ -153,7 +153,7 @@ public class Resources {
                 continue;
             }
 
-            URL resource = classInstance.getResource("/" + value);
+            URL resource = classInstance.getResource("/assets/" + value);
 
             if (resource == null) {
                 throw new RuntimeException("Asset '" + entry.getKey() + "' (" + value + ") not found");

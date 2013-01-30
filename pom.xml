@@ -95,7 +95,7 @@
                                     <jre>
                                         <minVersion>1.7.0</minVersion>
                                     </jre>
-                                    <icon>src/main/resources/exeIcon.ico</icon>
+                                    <icon>src/main/resources/assets/exeIcon.ico</icon>
                                     <versionInfo>
                                         <fileVersion>2.0.0.${buildNumber}</fileVersion>
                                         <txtFileVersion>2.0.0.${buildNumber}</txtFileVersion>
@@ -148,7 +148,7 @@
                                     <jre>
                                         <minVersion>1.7.0</minVersion>
                                     </jre>
-                                    <icon>src/main/resources/exeIcon.ico</icon>
+                                    <icon>src/main/resources/assets/exeIcon.ico</icon>
                                     <versionInfo>
                                         <fileVersion>2.0.0.${buildNumber}</fileVersion>
                                         <txtFileVersion>2.0.0.${buildNumber}</txtFileVersion>
