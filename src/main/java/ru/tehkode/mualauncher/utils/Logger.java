@@ -50,13 +50,17 @@ public class Logger {
 
     public static void initialize(File logFile) throws IOException {
         Formatter formatter = new LogFormatter();
-        
+
         logger.setUseParentHandlers(false);
         Handler consoleHandler = new ConsoleHandler();
         consoleHandler.setFormatter(formatter);
         consoleHandler.setLevel(Level.INFO);
         logger.addHandler(consoleHandler);
-        
+
+        if (!logFile.getParentFile().exists()) {
+            logFile.getParentFile().mkdirs();
+        }
+
         Handler fileHandler = new FileHandler(logFile.getAbsolutePath(), false);
         fileHandler.setFormatter(formatter);
         fileHandler.setLevel(Level.INFO);
