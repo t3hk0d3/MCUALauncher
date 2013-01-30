@@ -3,8 +3,6 @@ package ru.tehkode.mualauncher.utils;
 import java.awt.Desktop;
 import java.io.File;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import org.apache.commons.io.FileUtils;
 
 /**
