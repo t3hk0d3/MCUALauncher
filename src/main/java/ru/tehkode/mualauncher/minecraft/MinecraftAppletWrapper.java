@@ -78,9 +78,13 @@ public class MinecraftAppletWrapper extends Applet implements AppletStub {
     @Override
     public void stop() {
         applet.stop();
-        applet.destroy();
     }
 
+    @Override
+    public void destroy() {
+        applet.destroy();
+    }
+    
     @Override
     public void appletResize(int width, int height) {
         // do nothing
