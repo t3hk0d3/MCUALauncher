@@ -22,6 +22,8 @@ resources:
       player_online_status: Игроков на сервере - %d/%d
       auth_server_down: Логин сервер не доступен
       auth_server_down_title: Не могу авторизоваться
+      autoconnect_label: Автоподключение
+      autoconnect_checkbox: Подключаться к серверу автоматически
   uk:
     strings:
       login_button: Увійти
@@ -44,6 +46,8 @@ resources:
       player_online_status: Гравців на сервері - %d/%d
       auth_server_down: Логін сервер не доступний
       auth_server_down_title: Не можу авторизуватися
+      autoconnect_label: Автопідключення
+      autoconnect_checkbox: Підключатися до сервера автоматично
   en: 
     strings: &default
       login_button: Login
@@ -66,11 +70,15 @@ resources:
       translation_reload_title: Restart required
       auth_server_down: Login server is not available
       auth_server_down_title: Unable to authorize
+      autoconnect_label: Auto connect
+      autoconnect_checkbox: Connect to server automatically
   default:
     strings:
       window_title: Minecraft
       base_url: http://dl.minecraft.com.ua/mods/     
       server_status_url: http://minecraft.com.ua/status/mods/
+      minecraft_server_host: mods.minecraft.com.ua
+      minecraft_server_port: 25565
       <<: *default
     assets:
       background: background.png

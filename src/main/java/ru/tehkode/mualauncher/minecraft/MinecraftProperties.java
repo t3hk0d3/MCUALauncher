@@ -35,7 +35,7 @@ public class MinecraftProperties {
             params.put("server", args[3]);
             
             if(args.length > 4) {
-                params.put("port", args[3]);
+                params.put("port", args[4]);
             } else {
                 params.put("port", "25565"); // default minecraft port
             }

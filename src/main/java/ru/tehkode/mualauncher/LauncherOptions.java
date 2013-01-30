@@ -61,6 +61,14 @@ public class LauncherOptions extends Properties {
     public String getJvmOptions() {
         return this.getProperty("jvm-options", DEFAULT_JVM_OPTIONS);
     }
+    
+    public boolean isAutoConnect() {
+        return Boolean.parseBoolean(this.getProperty("autoconnect", "true"));
+    }
+    
+    public void setAutoConnect(boolean autoConnect) {
+        this.setProperty("autoconnect", Boolean.toString(autoConnect));
+    }
 
     public boolean isForceReload() {
         return this.forceReload;

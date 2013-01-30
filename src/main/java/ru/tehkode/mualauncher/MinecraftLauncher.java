@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 import ru.tehkode.mualauncher.session.UserSession;
+import ru.tehkode.mualauncher.utils.Resources;
 
 /**
  *
@@ -48,6 +49,11 @@ public class MinecraftLauncher {
         
         arguments.add(session.getLogin());
         arguments.add(session.getSessionId());
+        
+        if (options.isAutoConnect()) {
+            arguments.add(Resources.string("minecraft_server_host"));
+            arguments.add(Resources.string("minecraft_server_port"));
+        }
     
         ProcessBuilder builder = new ProcessBuilder(arguments);
         
