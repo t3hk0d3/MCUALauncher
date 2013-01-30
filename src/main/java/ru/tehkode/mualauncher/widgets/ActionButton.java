@@ -33,6 +33,7 @@ public class ActionButton extends JButton implements MouseListener {
         this.setOpaque(false);
         this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.addMouseListener(this);
+        this.setRolloverEnabled(false);
     }
     
     @Override
