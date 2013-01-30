@@ -5,11 +5,11 @@ import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -105,7 +105,30 @@ public class LauncherWindow extends JFrame implements ActionListener {
         ImageComponent backGround = new ImageComponent(image("background"));
         this.setPreferredSize(backGround.getSize());
         this.setContentPane(backGround);
+        
+        Image logo = image("logo");
 
+        JButton logoButton = new JButton(new ImageIcon(logo));
+        logoButton.setOpaque(false);
+        logoButton.setBorder(BorderFactory.createEmptyBorder());
+        logoButton.setContentAreaFilled(false);
+        logoButton.setLocation(85, 35);
+        logoButton.setBorderPainted(false);
+        logoButton.setRolloverEnabled(false);
+        logoButton.setSize(logo.getWidth(null), logo.getHeight(null));
+        logoButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
+        logoButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PlatformUtils.openWebpage(string("logo_website_url"));
+            }
+        });
+        
+        
+        this.add(logoButton);
+        
         JButton closeButton = new JButton(new ImageIcon(image("close_button")));
         closeButton.setBorder(BorderFactory.createEmptyBorder());
         closeButton.setContentAreaFilled(false);
