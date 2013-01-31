@@ -3,7 +3,7 @@ package ru.tehkode.mualauncher.session;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
-import org.apache.commons.io.IOUtils;
+import ru.tehkode.mualauncher.net.Downloader;
 
 /**
  *
@@ -23,7 +23,7 @@ public class UserAuthorization {
     }
 
     private String openSession() throws IOException {
-        return new String(IOUtils.toByteArray(this.getLoginURL()), "UTF-8");
+        return Downloader.create(getLoginURL()).downloadToString();
     }
 
     private URL getLoginURL() {
