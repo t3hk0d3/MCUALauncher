@@ -26,7 +26,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 import ru.tehkode.mualauncher.LauncherOptions;
 import ru.tehkode.mualauncher.MinecraftLauncher;
-import ru.tehkode.mualauncher.updater.VersionManager;
+import ru.tehkode.mualauncher.updater.MinecraftUpdater;
 import ru.tehkode.mualauncher.session.*;
 import ru.tehkode.mualauncher.widgets.*;
 import ru.tehkode.mualauncher.utils.*;
@@ -257,7 +257,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 UserCredenitals credenitals = new UserCredenitals(loginField.getText(), passwordField.getPassword());
                 UserAuthorization authorizer = new UserAuthorization(credenitals);
 
-                VersionManager manager = new VersionManager(currentPath, string("base_url"), options.isForceReload());
+                MinecraftUpdater manager = new MinecraftUpdater(currentPath, string("base_url"), options.isForceReload());
                 MinecraftLauncher launcher = new MinecraftLauncher(currentPath, options);
 
                 try {

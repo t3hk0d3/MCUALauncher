@@ -19,14 +19,14 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import ru.tehkode.mualauncher.gui.DownaloadWindow;
+import ru.tehkode.mualauncher.gui.DownloadWindow;
 import ru.tehkode.mualauncher.utils.Logger;
 
 /**
  *
  * @author t3hk0d3
  */
-public class VersionManager {
+public class MinecraftUpdater {
 
     private final static String UPDATE = "update.zip";
     private final static String VERSION = "version";
@@ -34,13 +34,13 @@ public class VersionManager {
     private final String baseURL;
     private final boolean forceUpdate;
     private int currentVersion = 0;
-    private DownaloadWindow progressWindow;
+    private DownloadWindow progressWindow;
 
-    public VersionManager(File basePath, String baseURL, boolean forceUpdate) {
+    public MinecraftUpdater(File basePath, String baseURL, boolean forceUpdate) {
         this.basePath = basePath;
         this.baseURL = baseURL;
         this.forceUpdate = forceUpdate;
-        this.progressWindow = new DownaloadWindow();
+        this.progressWindow = new DownloadWindow();
     }
 
     public void checkForUpdates() throws Exception {
