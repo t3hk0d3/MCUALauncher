@@ -4,6 +4,7 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import ru.tehkode.mualauncher.net.DownloadListener;
 import ru.tehkode.mualauncher.widgets.ProgressBar;
 
 import static ru.tehkode.mualauncher.utils.Resources.*;
@@ -12,7 +13,7 @@ import static ru.tehkode.mualauncher.utils.Resources.*;
  *
  * @author t3hk0d3
  */
-public class DownaloadWindow extends JFrame {
+public class DownloadWindow extends JFrame implements DownloadListener {
 
     private final static String[] SIZES = new String[]{"B", "KB", "MB", "GB"};
     JLabel progress;
@@ -20,8 +21,10 @@ public class DownaloadWindow extends JFrame {
     private long current = 0;
     private String maximumSize;
     private ProgressBar progressBar = new ProgressBar();
+    
+    private long downloadStartedAt;
 
-    public DownaloadWindow() {
+    public DownloadWindow() {
         super(string("download_progress"));
 
         this.setUndecorated(true);
@@ -90,4 +93,25 @@ public class DownaloadWindow extends JFrame {
 
         return size + " bytes";
     }
+
+    @Override
+    public void onDownloadProgress(long readed, long total) {
+        long now = System.currentTimeMillis();
+        
+        this.setDownloadProgress(current, (int)(readed / (now - this.downloadStartedAt)));
+    }
+
+    @Override
+    public void onDownloadStarted(long total) {
+        this.downloadStartedAt = System.currentTimeMillis();
+        this.setTotal(total);
+    }
+
+    @Override
+    public void onDownloadFinished(long readed) {
+        // do nothig, for now
+    }
+    
+    
+    
 }
