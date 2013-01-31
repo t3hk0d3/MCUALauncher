@@ -31,6 +31,6 @@ public interface DownloadAdapter {
     
     public String downloadToString() throws IOException;
     
-    public List<String> downloadToLines() throws IOException;
+    public List<String> downloadLines() throws IOException;
     
 }

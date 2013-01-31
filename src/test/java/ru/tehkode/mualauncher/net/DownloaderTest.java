@@ -81,7 +81,7 @@ public class DownloaderTest {
 
         stub(connection.getInputStream()).toReturn(new ByteArrayInputStream(expected.getBytes()));
 
-        List<String> lines = Downloader.create(testURL).downloadToLines();
+        List<String> lines = Downloader.create(testURL).downloadLines();
         
         // @todo aggregate somehow this to single assert
         assertEquals("first line", lines.get(0));

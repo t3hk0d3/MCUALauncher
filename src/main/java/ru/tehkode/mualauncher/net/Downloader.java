@@ -165,7 +165,7 @@ public class Downloader implements DownloadAdapter {
     }
 
     @Override
-    public List<String> downloadToLines() throws IOException {
+    public List<String> downloadLines() throws IOException {
         return new ArrayList<String>(Arrays.asList(this.downloadToString().split("\\r?\\n")));
     }
 
