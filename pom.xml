@@ -24,11 +24,9 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
-            </resource>
-            <!-- assets -->
-            <resource>
-                <directory>src/main/resources/assets</directory>
-                <filtering>false</filtering>
+                <excludes>
+                    <exclude>asserts/**</exclude>
+                </excludes>
             </resource>
         </resources>
         
