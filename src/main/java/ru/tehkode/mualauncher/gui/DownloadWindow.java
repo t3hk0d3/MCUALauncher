@@ -21,7 +21,6 @@ public class DownloadWindow extends JFrame implements DownloadListener {
     private long current = 0;
     private String maximumSize;
     private ProgressBar progressBar = new ProgressBar();
-    
     private long downloadStartedAt;
 
     public DownloadWindow() {
@@ -72,7 +71,7 @@ public class DownloadWindow extends JFrame implements DownloadListener {
         this.current = current;
 
         float percent = 1.0f * current / maximum * 100.0f;
-        
+
         this.setTitle(string("unpacking_progress"));
 
         progress.setText(String.format("%.2f%% - %d/%d", percent, current, this.maximum));
@@ -97,8 +96,8 @@ public class DownloadWindow extends JFrame implements DownloadListener {
     @Override
     public void onDownloadProgress(long readed, long total) {
         long now = System.currentTimeMillis();
-        
-        this.setDownloadProgress(current, (int)(readed / (now - this.downloadStartedAt)));
+
+        this.setDownloadProgress(readed, (int) (readed / (now - this.downloadStartedAt) * 1000));
     }
 
     @Override
@@ -111,7 +110,4 @@ public class DownloadWindow extends JFrame implements DownloadListener {
     public void onDownloadFinished(long readed) {
         // do nothig, for now
     }
-    
-    
-    
 }
