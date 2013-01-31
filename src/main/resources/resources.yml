@@ -24,6 +24,8 @@ resources:
       auth_server_down_title: Не могу авторизоваться
       autoconnect_label: Автоподключение
       autoconnect_checkbox: Подключаться к серверу автоматически
+      bad_login_message: Неверный логин или пароль
+      bad_login_title: Не могу войти
   uk:
     strings:
       login_button: Увійти
@@ -48,6 +50,8 @@ resources:
       auth_server_down_title: Не можу авторизуватися
       autoconnect_label: Автопідключення
       autoconnect_checkbox: Підключатися до сервера автоматично
+      bad_login_message: Не вірний логін чи пароль
+      bad_login_title: Неможливо увійти
   en: 
     strings: &default
       login_button: Login
@@ -72,6 +76,8 @@ resources:
       auth_server_down_title: Unable to authorize
       autoconnect_label: Auto connect
       autoconnect_checkbox: Connect to server automatically
+      bad_login_message: Invalid login or password
+      bad_login_title: Unable to login
   default:
     strings:
       window_title: Minecraft
