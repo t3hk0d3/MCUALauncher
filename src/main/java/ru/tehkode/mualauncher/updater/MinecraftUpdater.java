@@ -1,25 +1,22 @@
 package ru.tehkode.mualauncher.updater;
 
-import java.awt.Window;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.channels.WritableByteChannel;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import org.apache.commons.io.IOUtils;
 
 import ru.tehkode.mualauncher.gui.DownloadWindow;
+import ru.tehkode.mualauncher.net.DownloadAdapter;
+import ru.tehkode.mualauncher.net.Downloader;
 import ru.tehkode.mualauncher.utils.Logger;
 
 /**
@@ -105,19 +102,18 @@ public class MinecraftUpdater {
 
             Logger.info("Downloading " + updateURL);
 
-            URLConnection connection = updateURL.openConnection();
-
             File tempZip = File.createTempFile("update_mcua", ".zip");
-
-            connection.connect();
-
-            progressWindow.setTotal(connection.getContentLengthLong());
 
             progressWindow.setVisible(true);
 
             Logger.info("Downloading...");
-            this.copyStreams(connection.getInputStream(), new FileOutputStream(tempZip), connection.getContentLengthLong());
-
+            
+            DownloadAdapter downloader = Downloader.create(updateURL);
+            
+            downloader.setDownloadListener(progressWindow);
+            
+            downloader.downloadToFile(tempZip);
+            
             Logger.info("Unpacking");
 
             unpackZip(tempZip);
@@ -160,58 +156,11 @@ public class MinecraftUpdater {
             Logger.info("Unpacking %s into %s", entry.getName(), destFile.toString());
 
             destFile.createNewFile();
-
-            this.copyStreams(zip.getInputStream(entry), new FileOutputStream(destFile), 0);
+            
+            IOUtils.copy(zip.getInputStream(entry), new FileOutputStream(destFile));
 
             this.progressWindow.setUnpackingProgress(++processed);
         }
     }
 
-    private void copyStreams(InputStream is, OutputStream os, long total) throws IOException {
-        ByteBuffer buffer = ByteBuffer.allocate(10240);
-        ReadableByteChannel rc = null;
-        WritableByteChannel wc = null;
-
-        try {
-            rc = Channels.newChannel(is);
-            wc = Channels.newChannel(os);
-
-            int read;
-            long readed = 0;
-
-            int delta = 0;
-            long start = System.currentTimeMillis();
-
-            while ((read = rc.read(buffer)) > 0) {
-                buffer.flip();
-                wc.write(buffer);
-                buffer.clear();
-                readed += read;
-                
-                if (delta < 102400) { // update on delta overflow only
-                    delta += read;
-                } else if (total > 0) {
-                    progressWindow.setDownloadProgress(readed, (int)(readed / (System.currentTimeMillis() - start))*1000);
-                    delta = 0;
-                }
-            }
-
-        } finally {
-            if (is != null) {
-                is.close();
-            }
-
-            if (os != null) {
-                os.close();
-            }
-
-            if (rc != null) {
-                rc.close();
-            }
-
-            if (wc != null) {
-                wc.close();
-            }
-        }
-    }
 }
