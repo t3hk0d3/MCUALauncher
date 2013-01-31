@@ -30,7 +30,7 @@ public class Downloader implements DownloadAdapter {
 
     public static Class<?> adapterClass = Downloader.class;
     
-    public static ConnectionFactory defaultConnectionFactory;
+    public static ConnectionFactory defaultConnectionFactory = new DefaultURLConnectionFactory();
 
     public static DownloadAdapter create(String url) {
         try {
