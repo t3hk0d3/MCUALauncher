@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
+import ru.tehkode.mualauncher.net.Downloader;
 
 /**
  *
@@ -18,7 +19,7 @@ public class ServerStatusPoller {
     }
 
     public ServerStatus pollStatus() throws IOException {
-        return new ServerStatus(IOUtils.readLines(statusUrl.openStream()));
+        return new ServerStatus(Downloader.create(statusUrl).downloadLines());
     }
 
     public class ServerStatus {
