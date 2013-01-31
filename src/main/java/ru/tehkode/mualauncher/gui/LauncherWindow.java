@@ -297,6 +297,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
                     loginField.setForeground(Color.red);
                 } catch (Exception e) {
                     Logger.warning("Login Error: (%s) %s", e.getClass().getSimpleName(), e.getMessage());
+                    e.printStackTrace();
                 }
 
                 locked = false;
