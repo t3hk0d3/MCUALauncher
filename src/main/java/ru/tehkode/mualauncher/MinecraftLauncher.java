@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 import ru.tehkode.mualauncher.session.UserSession;
+import ru.tehkode.mualauncher.utils.PlatformUtils;
 import ru.tehkode.mualauncher.utils.Resources;
 
 /**
@@ -33,7 +34,7 @@ public class MinecraftLauncher {
     public Process launchMinecraft(UserSession session) throws IOException {
         List<String> arguments = new ArrayList<String>();
         
-        arguments.add(getJavaBinary().getAbsolutePath());
+        arguments.add(PlatformUtils.getJavaBinary().getAbsolutePath());
         
         String jvmOptions = options.getJvmOptions();
         if(jvmOptions != null && !jvmOptions.isEmpty()) { // split additional jvm options, or they would be escaped
@@ -62,23 +63,7 @@ public class MinecraftLauncher {
         
         return builder.start();        
     }
-    
-    public File getJavaBinary() {
-        File javaBinaryPath = new File(System.getProperty("java.home"), "bin");
         
-        String[] possibleJavaBinaries = new String[] { "javaw.exe", "java.exe", "java" };
-        
-        for(String binaryName : possibleJavaBinaries) {
-            File binaryFile = new File(javaBinaryPath, binaryName);
-            
-            if(binaryFile.exists() && binaryFile.canExecute()) {
-                return binaryFile;
-            }
-        }
-        
-        throw new RuntimeException("Can't find java binary!");              
-    }
-    
     public String getClassPath() {
         StringBuilder buffer = new StringBuilder();
         buffer.append(System.getProperty("java.class.path"));

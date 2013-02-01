@@ -55,4 +55,20 @@ public class PlatformUtils {
         }
     }
     
+    public static File getJavaBinary() {
+        File javaBinaryPath = new File(System.getProperty("java.home"), "bin");
+        
+        String[] possibleJavaBinaries = new String[] { "javaw.exe", "java.exe", "java" };
+        
+        for(String binaryName : possibleJavaBinaries) {
+            File binaryFile = new File(javaBinaryPath, binaryName);
+            
+            if(binaryFile.exists() && binaryFile.canExecute()) {
+                return binaryFile;
+            }
+        }
+        
+        throw new RuntimeException("Can't find java binary!");              
+    }
+    
 }
