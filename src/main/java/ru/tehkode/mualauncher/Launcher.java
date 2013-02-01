@@ -46,7 +46,7 @@ public class Launcher {
         }
 
         try {
-            LauncherUpdater updater = new LauncherUpdater("http://dl.minecraft.com.ua/launcher/version.json");
+            LauncherUpdater updater = new LauncherUpdater(Resources.string("version_url"));
 
             updater.updateLauncher();
         } catch (Throwable e) {
@@ -59,8 +59,6 @@ public class Launcher {
             public void run() {
                 try {
                     JFrame w = new LauncherWindow(currentPath, options);
-                    //w.setSize(300, 300);
-                    //w.setLocation(500, 100);
 
                     w.setVisible(true);
                 } catch (Throwable e) {
