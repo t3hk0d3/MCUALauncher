@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import ru.tehkode.mualauncher.net.DownloadListener;
+import ru.tehkode.mualauncher.utils.Logger;
+import ru.tehkode.mualauncher.utils.Resources;
 import ru.tehkode.mualauncher.widgets.ProgressBar;
 
 import static ru.tehkode.mualauncher.utils.Resources.*;
@@ -18,13 +20,18 @@ public class DownloadWindow extends JFrame implements DownloadListener {
     private final static String[] SIZES = new String[]{"B", "KB", "MB", "GB"};
     JLabel progress;
     private long maximum = 0;
-    private long current = 0;
     private String maximumSize;
     private ProgressBar progressBar = new ProgressBar();
     private long downloadStartedAt;
 
     public DownloadWindow(String title) {
         super(title);
+
+        try {
+            this.setIconImage(Resources.image("window_icon"));
+        } catch (Throwable e) {
+            Logger.warning("Failed to setup window icon");
+        }
 
         this.setUndecorated(true);
 
@@ -58,8 +65,6 @@ public class DownloadWindow extends JFrame implements DownloadListener {
     }
 
     public void setDownloadProgress(long current, int speed) {
-        this.current = current;
-
         float percent = 1.0f * current / maximum * 100.0f;
 
         progress.setText(String.format("%.2f%% - %s/%s (%s/s)", percent, formatSize(current), this.maximumSize, formatSize(speed)));
@@ -68,8 +73,6 @@ public class DownloadWindow extends JFrame implements DownloadListener {
     }
 
     public void setUnpackingProgress(long current) {
-        this.current = current;
-
         float percent = 1.0f * current / maximum * 100.0f;
 
         this.setTitle(string("unpacking_progress"));
@@ -98,7 +101,7 @@ public class DownloadWindow extends JFrame implements DownloadListener {
         long now = System.currentTimeMillis();
 
         this.setDownloadProgress(readed, (int) (readed / (now - this.downloadStartedAt) * 1000));
-        
+
         this.setVisible(true);
     }
 
