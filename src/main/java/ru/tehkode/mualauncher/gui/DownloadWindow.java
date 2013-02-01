@@ -114,6 +114,6 @@ public class DownloadWindow extends JFrame implements DownloadListener {
     @Override
     public void onDownloadFinished(long readed) {
         this.setVisible(false);
-        // do nothig, for now
+        // do nothing, for now
     }
 }
