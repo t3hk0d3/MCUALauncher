@@ -97,10 +97,7 @@ public class PlatformUtils {
         arguments.addAll(args);
             
         ProcessBuilder builder = new ProcessBuilder(arguments);
-        
-        builder.redirectError(ProcessBuilder.Redirect.INHERIT);
-        builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
-        
+                
         return builder.start();        
     }
     
