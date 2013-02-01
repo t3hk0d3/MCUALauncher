@@ -26,6 +26,7 @@ resources:
       autoconnect_checkbox: Подключаться к серверу автоматически
       bad_login_message: Неверный логин или пароль
       bad_login_title: Не могу войти
+      selfupdate_title: Обновление
   uk:
     strings:
       login_button: Увійти
@@ -78,6 +79,7 @@ resources:
       autoconnect_checkbox: Connect to server automatically
       bad_login_message: Invalid login or password
       bad_login_title: Unable to login
+      selfupdate_title: Updating
   default:
     strings:
       window_title: Minecraft

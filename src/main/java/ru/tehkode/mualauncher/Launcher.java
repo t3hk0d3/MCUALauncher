@@ -7,6 +7,7 @@ import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import ru.tehkode.mualauncher.updater.LauncherUpdater;
 import ru.tehkode.mualauncher.updater.LauncherVersion;
 import ru.tehkode.mualauncher.utils.Logger;
 import ru.tehkode.mualauncher.utils.PlatformUtils;
@@ -41,18 +42,16 @@ public class Launcher {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
-            //
+            Logger.warning("Failed to set system look and feel: %s", e.getMessage());
         }
 
-        // check new version
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                } catch (Throwable e) {
-                }
-            }
-        });
+        try {
+            LauncherUpdater updater = new LauncherUpdater("http://dl.minecraft.com.ua/launcher/version.json");
+
+            updater.updateLauncher();
+        } catch (Throwable e) {
+            Logger.warning("Failed to update launcher: %s", e.getMessage());
+        }
 
         // Create the GUI on the event-dispatching thread
         SwingUtilities.invokeLater(new Runnable() {
