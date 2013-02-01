@@ -31,21 +31,9 @@ public class MinecraftLauncher {
         this.baseDir = baseDir;
     }
 
-    public Process launchMinecraft(UserSession session) throws IOException {
+    public Process launchMinecraft(UserSession session) throws IOException {        
         List<String> arguments = new ArrayList<String>();
-        
-        arguments.add(PlatformUtils.getJavaBinary().getAbsolutePath());
-        
-        String jvmOptions = options.getJvmOptions();
-        if(jvmOptions != null && !jvmOptions.isEmpty()) { // split additional jvm options, or they would be escaped
-            arguments.addAll(Arrays.asList(jvmOptions.split("\\s+")));
-        }
-        
-        arguments.add("-cp");
-        arguments.add(this.getClassPath());
-        
-        arguments.add(Minecraft.class.getCanonicalName());
-        
+                
         arguments.add(baseDir.getAbsolutePath());
         
         arguments.add(session.getLogin());
@@ -55,13 +43,8 @@ public class MinecraftLauncher {
             arguments.add(Resources.string("minecraft_server_host"));
             arguments.add(Resources.string("minecraft_server_port"));
         }
-    
-        ProcessBuilder builder = new ProcessBuilder(arguments);
-        
-        builder.redirectError(ProcessBuilder.Redirect.INHERIT);
-        builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
-        
-        return builder.start();        
+            
+        return PlatformUtils.launchJavaApplication(this.getClassPath(), options.getJvmOptions(), Minecraft.class.getCanonicalName(), arguments);       
     }
         
     public String getClassPath() {

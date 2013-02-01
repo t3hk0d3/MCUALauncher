@@ -2,8 +2,13 @@ package ru.tehkode.mualauncher.utils;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.apache.commons.io.FileUtils;
+import ru.tehkode.mualauncher.Minecraft;
 
 /**
  *
@@ -69,6 +74,34 @@ public class PlatformUtils {
         }
         
         throw new RuntimeException("Can't find java binary!");              
+    }
+    
+    public static Process launchJavaApplication(String classPath, String className, String... args) throws IOException {        
+        return launchJavaApplication(classPath, null, className, Arrays.asList(args));
+    }
+    
+    public static Process launchJavaApplication(String classPath, String jvmOptions, String className, List<String> args) throws IOException {
+        List<String> arguments = new ArrayList<String>();
+        
+        arguments.add(getJavaBinary().getAbsolutePath());
+        
+        if(jvmOptions != null && !jvmOptions.isEmpty()) {
+            arguments.addAll(Arrays.asList(jvmOptions.split("\\s+")));
+        }
+        
+        arguments.add("-cp");
+        arguments.add(classPath);
+        
+        arguments.add(className);
+        
+        arguments.addAll(args);
+            
+        ProcessBuilder builder = new ProcessBuilder(arguments);
+        
+        builder.redirectError(ProcessBuilder.Redirect.INHERIT);
+        builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        
+        return builder.start();        
     }
     
 }
