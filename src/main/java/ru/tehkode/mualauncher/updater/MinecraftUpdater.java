@@ -18,6 +18,7 @@ import ru.tehkode.mualauncher.gui.DownloadWindow;
 import ru.tehkode.mualauncher.net.DownloadAdapter;
 import ru.tehkode.mualauncher.net.Downloader;
 import ru.tehkode.mualauncher.utils.Logger;
+import ru.tehkode.mualauncher.utils.Resources;
 
 /**
  *
@@ -37,7 +38,7 @@ public class MinecraftUpdater {
         this.basePath = basePath;
         this.baseURL = baseURL;
         this.forceUpdate = forceUpdate;
-        this.progressWindow = new DownloadWindow();
+        this.progressWindow = new DownloadWindow(Resources.string("download_progress"));
     }
 
     public void checkForUpdates() throws Exception {
@@ -103,9 +104,6 @@ public class MinecraftUpdater {
             Logger.info("Downloading " + updateURL);
 
             File tempZip = File.createTempFile("update_mcua", ".zip");
-
-            progressWindow.setVisible(true);
-
             Logger.info("Downloading...");
             
             DownloadAdapter downloader = Downloader.create(updateURL);
@@ -115,6 +113,8 @@ public class MinecraftUpdater {
             downloader.downloadToFile(tempZip);
             
             Logger.info("Unpacking");
+            
+            progressWindow.setVisible(true);
 
             unpackZip(tempZip);
 

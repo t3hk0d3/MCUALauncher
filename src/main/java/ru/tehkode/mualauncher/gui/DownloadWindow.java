@@ -23,8 +23,8 @@ public class DownloadWindow extends JFrame implements DownloadListener {
     private ProgressBar progressBar = new ProgressBar();
     private long downloadStartedAt;
 
-    public DownloadWindow() {
-        super(string("download_progress"));
+    public DownloadWindow(String title) {
+        super(title);
 
         this.setUndecorated(true);
 
@@ -98,6 +98,8 @@ public class DownloadWindow extends JFrame implements DownloadListener {
         long now = System.currentTimeMillis();
 
         this.setDownloadProgress(readed, (int) (readed / (now - this.downloadStartedAt) * 1000));
+        
+        this.setVisible(true);
     }
 
     @Override
@@ -108,6 +110,7 @@ public class DownloadWindow extends JFrame implements DownloadListener {
 
     @Override
     public void onDownloadFinished(long readed) {
+        this.setVisible(false);
         // do nothig, for now
     }
 }
