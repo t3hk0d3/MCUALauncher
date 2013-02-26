@@ -298,6 +298,10 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 } catch (Exception e) {
                     Logger.warning("Login Error: (%s) %s", e.getClass().getSimpleName(), e.getMessage());
                     e.printStackTrace();
+                    
+                    launcherWindow.setVisible(true);                    
+                    ErrorDialog dialog = new ErrorDialog(launcherWindow, e);                    
+                    dialog.setVisible(true);                    
                 }
 
                 locked = false;

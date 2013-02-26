@@ -27,6 +27,13 @@ resources:
       bad_login_message: Неверный логин или пароль
       bad_login_title: Не могу войти
       selfupdate_title: Обновление
+      login_error_message: |
+                           Произошла критическая ошибка во время выполнения входа.
+                           Пожалуйста отправьте текст ниже администрации.
+      login_error_title: Критическая ошибка
+      login_error_details: Детали
+      login_error_close_button: Закрыть
+      login_error_copy_button: Скопировать в буфер
   uk:
     strings:
       login_button: Увійти
@@ -53,6 +60,13 @@ resources:
       autoconnect_checkbox: Підключатися до сервера автоматично
       bad_login_message: Не вірний логін чи пароль
       bad_login_title: Неможливо увійти
+      login_error_message: |
+                           Пiд час логiну виникла катострофiчна помилка.
+                           Будь ласка, надішліть даннi про помилку одному з адміністраторів.
+      login_error_title: Фатальна помилка
+      login_error_details: Деталi
+      login_error_close_button: Закрити
+      login_error_copy_button: Копіювати до буферу обміну
   en: 
     strings: &default
       login_button: Login
@@ -80,6 +94,13 @@ resources:
       bad_login_message: Invalid login or password
       bad_login_title: Unable to login
       selfupdate_title: Updating
+      login_error_message: |
+                           Castastrophic failure happened during login.
+                           Please send following error log to one of administrators.
+      login_error_title: Fatal Error
+      login_error_details: Details
+      login_error_close_button: Close
+      login_error_copy_button: Copy to clipboard
   default:
     strings:
       window_title: Minecraft
