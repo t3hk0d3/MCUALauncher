@@ -95,7 +95,7 @@ resources:
       bad_login_title: Unable to login
       selfupdate_title: Updating
       login_error_message: |
-                           Castastrophic failure happened during login.
+                           Catastrophic failure happened during login.
                            Please send following error log to one of administrators.
       login_error_title: Fatal Error
       login_error_details: Details
